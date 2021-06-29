@@ -3,7 +3,7 @@ import numpy as np
 import datetime
 
 INFILE = "sample.mp4"
-THRESH = 0.35679398148148
+THRESH = 0.15679398148148
 JS_FILE = "sample.js"
 
 ESC_KEY = 27
@@ -50,6 +50,8 @@ def main():
     frame_ultima = np.zeros((*picsize[::-1], 3)) # create empty image
     fps = cv2.VideoCapture(INFILE).get(cv2.CAP_PROP_FPS)
     fps_inv = 1 / fps
+
+    frames = []
     
     for frame in MovieIter(INFILE, None):
         frame_cnt+=1
@@ -67,6 +69,16 @@ def main():
         diff = frame_ultima.astype(np.int) - frame_penult.astype(np.int)
         
         if MAE(diff)>=THRESH: #閾値よりMAEが大きい場合、カットと判定
+            for pre_frame in frames:
+                diff = frame_ultima.astype(np.int) - pre_frame.astype(np.int)
+                if MAE(diff) < THRESH:
+                    flag = True
+                    frames.append(frame_penult)
+                    break
+            
+            if flag:
+                continue
+            
             print("Cut detected!: frame {}".format(frame_cnt))
 
             if frame_cnt == 10:
