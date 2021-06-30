@@ -59,6 +59,8 @@ def main():
             continue
         frame_penult = frame_ultima
         frame_ultima = cv2.resize(frame, picsize, interpolation=cv2.INTER_AREA) #指定サイズに縮小
+
+        flag = False
         
         cv2.imshow("mov", frame)
         key = cv2.waitKey(1) # quit when esc-key pressed
