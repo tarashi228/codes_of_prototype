@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import datetime
 
-INFILE = "sample.mp4"
+INFILE = "output.mp4"
 THRESH = 0.15679398148148
 JS_FILE = "sample.js"
 
