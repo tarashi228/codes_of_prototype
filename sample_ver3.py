@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import datetime
 
-INFILE = "sample.mp4"
+INFILE = "output.mp4"
 THRESH = 0.15679398148148
 JS_FILE = "sample.js"
 
@@ -55,7 +55,7 @@ def main():
     
     for frame in MovieIter(INFILE, None):
         frame_cnt+=1
-        if frame_cnt % 10 != 0:
+        if frame_cnt % 30 != 0:
             continue
         frame_penult = frame_ultima
         frame_ultima = cv2.resize(frame, picsize, interpolation=cv2.INTER_AREA) #指定サイズに縮小
@@ -66,9 +66,11 @@ def main():
         key = cv2.waitKey(1) # quit when esc-key pressed
         if key == ESC_KEY:
             break
-        
+
+
         #差分画像作成
         diff = frame_ultima.astype(np.int) - frame_penult.astype(np.int)
+
         
         if MAE(diff)>=THRESH: #閾値よりMAEが大きい場合、カットと判定
             for pre_frame in frames:
@@ -80,10 +82,12 @@ def main():
             
             if flag:
                 continue
-            
+
             print("Cut detected!: frame {}".format(frame_cnt))
 
-            if frame_cnt == 10:
+            frames.append(frame_penult)
+
+            if frame_cnt == 30:
                 continue
 
             chap += 1
