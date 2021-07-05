@@ -15,53 +15,79 @@
     <div id="bookmarkmemo" class="bookmarkmemo" > </div>
     <button id="bookmark" class="bookmark" onclick="jump()"> </button>
     <br>
-
-    <!-- <form name="myform" method="POST" action="062902.php"> -->
+    <form name="myform" id="myform" method="POST" action="siorikinou.php"> 
          <p>index：<input type="text" name="index" id="index" ></p>
          <input type="hidden" name="time" id="time">
          <button type="button" onclick="getMdTime()">しおり</button>
-    <!-- </form> -->
+    </form>
+
+
+    <?php
+    if(isset($_POST["time"])) {
+        $time = $_POST["time"];
+        $index = $_POST["index"];
+        $filename = 'sample.txt'; /*保存先にファイル名を$filenameに代入*/
+        $fp = fopen($filename,'a'); /*ファイルを追記モードで開く*/
+        fwrite($fp,$index.' <> '.$time."\n"); /*情報をファイルに書き込む*/
+        fclose($fp); /*ファイルを閉じる*/
+    }
+    $filename = 'sample.txt';
+    if(file_exists($filename)){             
+        $board=json_decode(file_get_contents($filename));
+    }
+    ?>
+
     <script type="text/javascript">
-        var video=document.getElementById('video');
         function getMdTime(){
+            var video=document.getElementById('video');
             var playtime=video.currentTime;
             var time=document.getElementById('time');
-            var index=document.getElementById('index');
-            const div = document.getElementById('bookmarkmemo');
-            const div2=document.getElementById('bookmark');
-        
+            //var index=document.getElementById('index');
+            //const div = document.getElementById('bookmarkmemo');
+            //const div2=document.getElementById('bookmark');
+            //let blob = new Blob(['time'],{type:"text/plan"});
+            //let link = document.createElement('a');
+            //link.href = URL.createObjectURL(blob);
+            //link.download = 'sample.txt';
+            //link.click();
+            //fs.writeFileSync(sample.txt,time,function(err) {
+                //書き込み完了後の処理をかく
+                //if (err) throw err //エラーが返ってきた場合はエラーを投げる
+            //});
             time.value=playtime;
-            div.textContent = index.value;
-            div2.textContent = time.value;
+            //div.textContent = index.value;
+            //div2.textContent = time.value;
               
             
             
-            // document.myform.submit();
-
-            
-
+            document.myform.submit();
         }
+
         function jump(){
             var video=document.getElementById('video');
             var time =document.getElementById('bookmark');
             var time2=time.textContent;
             video.currentTime = time2;
         }
-    </script>
-    <?php
-    if($_REQUEST(['time'])!=NULL){
-        $index = $_REQUEST['index'];
-        $time = $_REQUEST['time'];
+        function prev(){
+            let js_array = <?php echo $board; ?>;
+            var result=js_array.split(' <> ');
+            const div = document.getElementById('bookmarkmemo');
+            const div2=document.getElementById('bookmark');
+            for(i=0;i<result.length;i++){
+                if(i%2==1){
+                    div2.textContent=result[i];
+                }else if(i%2==0){
+                    div.textContent=result[i];
+                }
+            }
+        }
+        
+        
+
+ 　　</script>
     
-        $filename = 'sample.txt'; /*保存先にファイル名を$filenameに代入*/
-    
-        $fp = fopen($filename,'a'); /*ファイルを追記モードで開く*/
-    
-        fwrite($fp,$index.' <> '.$time."</p>\n"); /*情報をファイルに書き込む*/
-    
-        fclose($fp); /*ファイルを閉じる*/
-    
-    }
-    ?>
+   
+
 </body>
 </html>
