@@ -7,32 +7,47 @@
     <title>Document</title>
 </head>
 <body>
+    <p><?php
+        $index = $_POST['index'];
+        $time = $_POST['time'];
+        $filename = 'sample3.txt'; /*保存先にファイル名を$filenameに代入*/
+        $fp = fopen($filename,'w'); /*ファイルを追記モードで開く*/
+        fwrite($fp,$index."\n".$time."\n"); /*情報をファイルに書き込む*/
+        fclose($fp); /*ファイルを閉じる*/
+
+        $fp2 = fopen($filename,'r');
+        $txt1=fgets($fp2);
+        $txt2=fgets($fp2);
+        fclose($fp2);
+
+    ?></p>
+
     <video controls width="1000" id="video"  autoplay >
         <source src="zoom_0.mp4"
             type="video/mp4">
             
     </video>
-    <div id="bookmarkmemo" class="bookmarkmemo" > </div>
-    <button id="bookmark" class="bookmark" onclick="jump()"> </button>
+    <div id="bookmarkmemo" class="bookmarkmemo" > <?php echo $txt1?></div>
+    <button id="bookmark" class="bookmark" onclick="jump()"> <?php echo $txt2?></button>
     <br>
-
     <form name="myform" method="POST" action="siorikinou3.php">
          <p>index：<input type="text" name="index" id="index" ></p>
          <input type="hidden" name="time" id="time">
          <button type="button" onclick="getMdTime()">しおり</button>
     </form>
+
     <script type="text/javascript">
         var video=document.getElementById('video');
         function getMdTime(){
             var playtime=video.currentTime;
             var time=document.getElementById('time');
-            var index=document.getElementById('index');
-            const div = document.getElementById('bookmarkmemo');
-            const div2=document.getElementById('bookmark');
+            //var index=document.getElementById('index');
+            //const div = document.getElementById('bookmarkmemo');
+            //const div2=document.getElementById('bookmark');
 
             time.value=playtime;
-            div.textContent = index.value;
-            div2.textContent = time.value;
+            //div.textContent = index.value;
+            //div2.textContent = time.value;
             
               
             
@@ -50,16 +65,7 @@
         }
     </script>
 
+    
 
-    <p><?php
-    if($_POST(['index']!=NULL)){
-        $index = $_POST['index'];
-        $time = $_POST['time'];
-        $filename = 'sample3.txt'; /*保存先にファイル名を$filenameに代入*/
-        $fp = fopen($filename,'a'); /*ファイルを追記モードで開く*/
-        fwrite($fp,$index.' <> '.$time."\n"); /*情報をファイルに書き込む*/
-        fclose($fp); /*ファイルを閉じる*/
-    }
-    ?></p>
 </body>
 </html>
