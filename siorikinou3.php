@@ -29,14 +29,15 @@
             var index=document.getElementById('index');
             const div = document.getElementById('bookmarkmemo');
             const div2=document.getElementById('bookmark');
-        
+
             time.value=playtime;
             div.textContent = index.value;
             div2.textContent = time.value;
+            
               
             
 
-            //document.myform.submit();
+            document.myform.submit();
 
             
 
@@ -50,7 +51,7 @@
     </script>
 
 
-    <?php
+    <p><?php
     if($_POST(['index']!=NULL)){
         $index = $_POST['index'];
         $time = $_POST['time'];
@@ -59,6 +60,6 @@
         fwrite($fp,$index.' <> '.$time."\n"); /*情報をファイルに書き込む*/
         fclose($fp); /*ファイルを閉じる*/
     }
-    ?>
+    ?></p>
 </body>
 </html>
