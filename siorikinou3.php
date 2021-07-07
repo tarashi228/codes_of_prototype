@@ -8,30 +8,37 @@
 </head>
 <body>
     <p><?php
-        $index = $_POST['index'];
-        $time = $_POST['time'];
-        $filename = 'sample3.txt'; /*保存先にファイル名を$filenameに代入*/
-        $fp = fopen($filename,'w'); /*ファイルを追記モードで開く*/
-        fwrite($fp,$index."\n".$time."\n"); /*情報をファイルに書き込む*/
-        fclose($fp); /*ファイルを閉じる*/
-
-        $fp2 = fopen($filename,'r');
-        $txt1=fgets($fp2);
-        $txt2=fgets($fp2);
-        fclose($fp2);
-
+    $pdo=new PDO('mysql:host=localhost;dbname=shiori;charset=utf8',	'igarashi', 'takuto');
+    $sql=$pdo->prepare('insert into shiori values(null, ?, ?)');
+    if (!empty($_REQUEST['index']) and !empty($_REQUEST['time'])){
+        $sql->execute([$_REQUEST['index'], $_REQUEST['time']]);
+    }
     ?></p>
 
     <video controls width="1000" id="video"  autoplay >
-        <source src="zoom_0.mp4"
+        <source src="sample.mp4"
             type="video/mp4">
             
     </video>
-    <div id="bookmarkmemo" class="bookmarkmemo" > <?php echo $txt1?></div>
-    <button id="bookmark" class="bookmark" onclick="jump()"> <?php echo $txt2?></button>
+    <?php
+        $sql2=$pdo->prepare('select * from shiori');
+        $sql2->execute([]);
+        foreach ($sql2 as $row) {
+            $comment_id = 1000 + $row['id'];
+            $time_id = $row['id'];
+            $txt1=$row['comment'];
+            $txt2=$row['time'];
+            echo '<div id="',$comment_id,'" class="bookmarkmemo">';
+            echo $txt1;
+            echo '</div>';
+            echo '<button id="',$time_id,'" class="bookmark" onclick="jump(',$row['id'],')">';
+            echo $txt2;
+            echo '</button>';
+        }
+    ?>
     <br>
-    <form name="myform" method="POST" action="siorikinou3.php">
-         <p>index：<input type="text" name="index" id="index" ></p>
+    <form name="myform" method="POST" action="shiorikinou3.php">
+         <p>index：<input type="text" name="index" id="index"></p>
          <input type="hidden" name="time" id="time">
          <button type="button" onclick="getMdTime()">しおり</button>
     </form>
@@ -57,9 +64,9 @@
             
 
         }
-        function jump(){
+        function jump(i){
             var video=document.getElementById('video');
-            var time =document.getElementById('bookmark');
+            var time =document.getElementById(i);
             var time2=time.textContent;
             video.currentTime = time2;
         }
