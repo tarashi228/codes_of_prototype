@@ -118,6 +118,5 @@ for i in range(len(time)-1):
         os.remove("sample"+str(i)+"_"+str(j)+".wav")
 
 # %%
-# 得られた特徴語リストを出力
-# 実装時には不要
+# 得られた特徴語リストを返す
 print(features)
