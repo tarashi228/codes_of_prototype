@@ -27,12 +27,15 @@
             $comment_id = 1000 + $row['id'];
             $time_id = $row['id'];
             $txt1=$row['comment'];
-            $txt2=$row['time'];
+            $time=$row['time'];
+            $hours = floor($time/3600);
+            $minutes = floor(($time/60)%60);
+            $seconds = $time%60;
             echo '<div id="',$comment_id,'" class="bookmarkmemo">';
             echo $txt1;
             echo '</div>';
             echo '<button id="',$time_id,'" class="bookmark" onclick="jump(',$row['id'],')">';
-            echo $txt2;
+            echo $hours,':',$minutes,':',$seconds;
             echo '</button>';
         }
     ?>
