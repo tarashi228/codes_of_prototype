@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<!--test-->
-<!--test1-->
-<!--test2-->
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,20 +11,27 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 </head>
 <body>
+    <?php
+    
+    ?>
     <video class="col-4 m-4" id="video" autoplay controls>
-        <source src="sample.mp4">
+        <source src="output.mp4">
     </video>
     <h2 class="px-4">チャプター選択</h2>
     <div class="m-4" style="height:400px; width:500px; overflow-x:scroll;">
         <table class="table">
-            <tbody class="chaps">
-            </tbody>
+            <tbody class="chaps"></tbody>
         </table>
     </div>
+    <form name="data_form" id="datas" method="POST" action="test_v2.php">
+    </form>
     
     
     <script src="sample.js"></script>
     <script src="test_v2.js"></script>
+    <?php
+
+    ?>
     <script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>

@@ -3,7 +3,7 @@ import numpy as np
 import datetime
 
 INFILE = "sample.mp4"
-THRESH = 0.15679398148148
+THRESH = 0.35679398148148
 JS_FILE = "sample.js"
 TEXT_FILE = "sample.txt"
 
