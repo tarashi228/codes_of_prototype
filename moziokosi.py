@@ -30,7 +30,7 @@ chapters = []
 for i in range(len(time)-1):
     if time[i+1]-time[i]<30:
         stream = ffmpeg.input(fname)
-        stream = ffmpeg.output(stream, "sample"+str(i)+"_"+str(0)+".wav", ss=time[i], t=time[i+1]-time[i])
+        stream = ffmpeg.output(stream, str(i)+"_"+str(0)+".wav", ss=time[i], t=time[i+1]-time[i])
         ffmpeg.run(stream)
         chapters.append(0)
     else:
@@ -38,12 +38,12 @@ for i in range(len(time)-1):
         j = 0
         while time[i+1]-t>30:
             stream = ffmpeg.input(fname)
-            stream = ffmpeg.output(stream, "sample"+str(i)+"_"+str(j)+".wav", ss=t, t=30)
+            stream = ffmpeg.output(stream, str(i)+"_"+str(j)+".wav", ss=t, t=30)
             ffmpeg.run(stream)
             j += 1
             t += 30
         stream = ffmpeg.input(fname)
-        stream = ffmpeg.output(stream, "sample"+str(i)+"_"+str(j)+".wav", ss=t, t=time[i+1]-t)
+        stream = ffmpeg.output(stream, str(i)+"_"+str(j)+".wav", ss=t, t=time[i+1]-t)
         ffmpeg.run(stream)
         chapters.append(j)
 # WAV形式で分割された動画を出力
@@ -59,7 +59,7 @@ for i in range(len(time)-1):
 
         if j == 0:
             try:
-                with sr.AudioFile("sample"+str(i)+"_"+str(j)+".wav") as source:
+                with sr.AudioFile(str(i)+"_"+str(j)+".wav") as source:
                     audio = r.record(source)
 
                 text = r.recognize_google(audio, language='ja-JP')
@@ -67,7 +67,7 @@ for i in range(len(time)-1):
                 pass
         else:
             try:
-                with sr.AudioFile("sample"+str(i)+"_"+str(j)+".wav") as source:
+                with sr.AudioFile(str(i)+"_"+str(j)+".wav") as source:
                     audio = r.record(source)
 
                 text += r.recognize_google(audio, language='ja-JP')
@@ -115,7 +115,7 @@ for i in range(len(time)-1):
 # 作ったwavファイルを削除
 for i in range(len(time)-1):
     for j in range(chapters[i]):
-        os.remove("sample"+str(i)+"_"+str(j)+".wav")
+        os.remove(str(i)+"_"+str(j)+".wav")
 
 # %%
 # 得られた特徴語リストを返す
