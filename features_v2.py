@@ -9,7 +9,7 @@ def features(time):
 
     # %%
     # 読み込むファイル名を定義
-    fname = "sample.mp4"
+    fname = "output.mp4"
 
     # %%
     #動画全体の時間を調べる

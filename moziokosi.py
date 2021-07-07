@@ -7,7 +7,7 @@ import os
 
 # %%
 # 読み込むファイル名を定義
-fname = "sample.mp4"
+fname = "output.mp4"
 time = []
 with open("sample.txt", "r", encoding="utf-8") as f:
     lines = f.readlines()
