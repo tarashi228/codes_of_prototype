@@ -2,9 +2,10 @@ import cv2
 import numpy as np
 import datetime
 
-INFILE = "output.mp4"
+INFILE = "sample.mp4"
 THRESH = 0.15679398148148
 JS_FILE = "sample.js"
+TEXT_FILE = "sample.txt"
 
 ESC_KEY = 27
 INTERVAL= 1
@@ -52,6 +53,7 @@ def main():
     fps_inv = 1 / fps
 
     frames = []
+    chapters = []
     
     for frame in MovieIter(INFILE, None):
         frame_cnt+=1
@@ -98,8 +100,10 @@ def main():
             str_pre_sec = sec_to_jikoku(pre_sec)
             str_sec = sec_to_jikoku(sec)
 
-            with open(JS_FILE, "a", encoding="utf-8") as f:
-                f.write("$(\'.chaps\').append(\'<tr class=\"chap\"><td>Chapter" + str(chap) + "<span class=\"text-muted fs-5\">" + str_pre_sec + "</span></td></tr>\');\n")
+            chapters.append(["Chapter", str(chap), str_pre_sec, str(round(sec))])
+
+            # with open(JS_FILE, "a", encoding="utf-8") as f:
+            #     f.write("$(\'.chaps\').append(\'<tr class=\"chap\"><td>Chapter" + str(chap) + "<span class=\"text-muted fs-5\">" + str_pre_sec + "</span></td></tr>\');\n")
     chap += 1
 
     pre_sec = round(sec)+1
@@ -108,9 +112,32 @@ def main():
     str_pre_sec = sec_to_jikoku(pre_sec)
     str_sec = sec_to_jikoku(sec)
 
+    chapters.append(["Chapter", str(chap), str_pre_sec, str(round(sec))])
+
+    print(chapters)
+
+    for chapter in chapters:
+        with open(JS_FILE, "a", encoding="utf-8") as f:
+                f.write("$(\'.chaps\').append(\'<tr id=\"chap"+ chapter[1] + "\" class=\"chap\" onclick=\"clicked(" + chapter[1] + ")\"><td>" + chapter[0] + chapter[1] + "<span class=\"text-muted fs-5\">" + chapter[2] + "</span></td></tr>\');\n")
+
     with open(JS_FILE, "a", encoding="utf-8") as f:
-        f.write("$(\'.chaps\').append(\'<tr class=\"chap\"><td>Chapter" + str(chap) + "<span class=\"text-muted fs-5\">" + str_pre_sec + "</span></td></tr>\');\n})")
+        f.write("})\n\n")
     
+    with open(JS_FILE, "a", encoding="utf-8") as f:
+        f.write("data=[")
+        for chapter in chapters:
+            f.write("[\"Chapter"+chapter[1]+"\", 0],\n")
+        f.write("]")
+
+    with open(TEXT_FILE, "w", encoding="utf-8") as f:
+        f.write("0\n")
+    
+    for chapter in chapters:
+        with open(TEXT_FILE, "a", encoding="utf-8") as f:
+            f.write(chapter[3]+"\n")
+
+    
+
 
 if __name__ == "__main__":
     main()
