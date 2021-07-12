@@ -3,7 +3,7 @@ import numpy as np
 import datetime
 
 INFILE = "sample.mp4"
-THRESH = 0.35679398148148
+THRESH = 0.33679398148148
 JS_FILE = "sample.js"
 TEXT_FILE = "sample.txt"
 
@@ -121,20 +121,20 @@ def main():
                 f.write("$(\'.chaps\').append(\'<tr id=\"chap"+ chapter[1] + "\" class=\"chap\" onclick=\"clicked(" + chapter[1] + ")\"><td>" + chapter[0] + chapter[1] + "<span class=\"text-muted fs-5\">" + chapter[2] + "</span></td></tr>\');\n")
 
     with open(JS_FILE, "a", encoding="utf-8") as f:
-        f.write("})\n\n")
+        f.write("})\n\nvar N = " + chapters[-1][1] + ";")
     
-    with open(JS_FILE, "a", encoding="utf-8") as f:
-        f.write("data=[")
-        for chapter in chapters:
-            f.write("[\"Chapter"+chapter[1]+"\", 0],\n")
-        f.write("]")
+    # with open(JS_FILE, "a", encoding="utf-8") as f:
+    #     f.write("data=[")
+    #     for chapter in chapters:
+    #         f.write("[\"Chapter"+chapter[1]+"\", 0],\n")
+    #     f.write("]")
 
-    with open(TEXT_FILE, "w", encoding="utf-8") as f:
-        f.write("0\n")
+    # with open(TEXT_FILE, "w", encoding="utf-8") as f:
+    #     f.write("0\n")
     
-    for chapter in chapters:
-        with open(TEXT_FILE, "a", encoding="utf-8") as f:
-            f.write(chapter[3]+"\n")
+    # for chapter in chapters:
+    #     with open(TEXT_FILE, "a", encoding="utf-8") as f:
+    #         f.write(chapter[3]+"\n")
 
     
 
