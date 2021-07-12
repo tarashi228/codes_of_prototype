@@ -21,6 +21,10 @@
             
     </video>
     <?php
+        $sql3=$pdo->prepare('delete from shiori where id=?');
+        if (!empty($_REQUEST['id'])){
+            $sql3->execute([$_REQUEST['id']]);
+        }
         $sql2=$pdo->prepare('select * from shiori');
         $sql2->execute([]);
         foreach ($sql2 as $row) {
@@ -28,14 +32,16 @@
             $time_id = $row['id'];
             $txt1=$row['comment'];
             $time=$row['time'];
-            $hours = floor($time/3600);
-            $minutes = floor(($time/60)%60);
-            $seconds = $time%60;
+            //$hours = floor($time/3600);
+            //$minutes = floor(($time/60)%60);
+            //$seconds = $time%60;
             echo '<div id="',$comment_id,'" class="bookmarkmemo">';
             echo $txt1;
+            echo '<a href="shiorikinou3.php?id=', $row['id'], '">削除</a>';
             echo '</div>';
             echo '<button id="',$time_id,'" class="bookmark" onclick="jump(',$row['id'],')">';
-            echo $hours,':',$minutes,':',$seconds;
+            //echo $hours,':',$minutes,':',$seconds;
+            echo $time;
             echo '</button>';
         }
     ?>
