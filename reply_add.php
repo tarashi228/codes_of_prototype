@@ -21,4 +21,5 @@ echo '<p>';
 echo '<a href="comment_timestamp_tmp.php">戻る</a>';
 echo '</p>';
 ?>
-<?php require 'footer.php'; ?>
+</body>
+</html>
